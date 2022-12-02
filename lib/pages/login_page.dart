@@ -18,7 +18,11 @@ class LoginPage extends StatelessWidget {
             children: [
               Logo(),
               _Form(),
-              Labels(),
+              Labels(
+                route: 'register',
+                subTitle: '¿No tienes una cuenta?',
+                title: 'Crea una ahora!',
+              ),
               _Bottom(),
             ],
           ),
@@ -42,7 +46,7 @@ class __FormState extends State<_Form> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 50),
+      margin: const EdgeInsets.symmetric(horizontal: 35),
       child: Column(
         children: [
           CustomInput(
