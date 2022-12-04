@@ -1,7 +1,9 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+
+import 'package:chat_real_time_app/widgets/widgets.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({Key? key}) : super(key: key);
@@ -10,10 +12,13 @@ class ChatPage extends StatefulWidget {
   State<ChatPage> createState() => _ChatPageState();
 }
 
-class _ChatPageState extends State<ChatPage> {
+class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
   final _textController = TextEditingController();
   final _focusNode = FocusNode();
+
   bool _isWriting = false;
+
+  List<ChatMessage> _messages = [];
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +53,8 @@ class _ChatPageState extends State<ChatPage> {
             Flexible(
               child: ListView.builder(
                 physics: const BouncingScrollPhysics(),
-                itemBuilder: (context, index) => Text('$index'),
+                itemCount: _messages.length,
+                itemBuilder: (context, index) => _messages[index],
                 reverse: true,
               ),
             ),
@@ -131,10 +137,25 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 
-  _handleSubmit(String text) {
-    print(text);
+  _handleSubmit(String texto) {
+    if (texto.isEmpty) return;
+
+    print(texto);
     _textController.clear();
     _focusNode.requestFocus();
+
+    final newMessage = ChatMessage(
+      text: texto,
+      uid: '123',
+      animationController: AnimationController(
+        vsync: this,
+        duration: const Duration(milliseconds: 300),
+      ),
+    );
+
+    _messages.insert(0, newMessage);
+    newMessage.animationController.forward();
+
     setState(() {
       _isWriting = false;
     });
