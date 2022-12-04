@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'S&A Private Chat',
-      initialRoute: 'login',
+      initialRoute: 'chat',
       routes: appRoutes,
     );
   }
