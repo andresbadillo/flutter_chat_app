@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import 'package:chat_real_time_app/services/auth_service.dart';
 import '../widgets/widgets.dart';
 
 class LoginPage extends StatelessWidget {
@@ -65,7 +67,13 @@ class __FormState extends State<_Form> {
           CustomButton(
             text: 'Ingresar',
             onPressed: () {
-              print('Hola');
+              print(emailCtrl.text);
+              print(passCtrl.text);
+              final authService = Provider.of<AuthService>(
+                context,
+                listen: false,
+              );
+              authService.login(emailCtrl.text, passCtrl.text);
             },
           ),
         ],

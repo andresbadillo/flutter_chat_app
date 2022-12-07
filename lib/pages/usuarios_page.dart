@@ -43,23 +43,23 @@ class _UsuariosPageState extends State<UsuariosPage> {
           title: Text(
             'Mi nombre',
             style: TextStyle(
-              color: Color(0xff1A535C),
+              color: Color(0xffF7FFF7),
             ),
           ),
           elevation: 1,
           centerTitle: true,
-          backgroundColor: const Color(0xffF7FFF7),
+          backgroundColor: const Color(0xff1A535C),
           leading: IconButton(
             onPressed: () {},
             icon: const Icon(
               Icons.chevron_left_outlined,
-              color: Color(0xff1A535C),
+              color: Color(0xffF7FFF7),
             ),
           ),
           actions: [
             Container(
               margin: const EdgeInsets.only(right: 10),
-              child: const Icon(Icons.check_circle, color: Color(0xff1A535C)),
+              child: const Icon(Icons.check_circle, color: Color(0xffF7FFF7)),
               // child: Icon(Icons.offline_bolt, color: Color(0xffFF6B6B)),
             ),
           ],
