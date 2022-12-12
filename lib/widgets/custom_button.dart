@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
-  final Function() onPressed;
+  final Function()? onPressed;
 
   const CustomButton({
     Key? key,
@@ -15,7 +15,7 @@ class CustomButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        primary: const Color(0xff1a535c),
+        backgroundColor: const Color(0xff1a535c),
         maximumSize: const Size(double.infinity, 55),
         minimumSize: const Size(double.infinity, 55),
         shape: const StadiumBorder(),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:chat_real_time_app/helpers/mostrar_alerta.dart';
 import 'package:chat_real_time_app/services/auth_service.dart';
 import '../widgets/widgets.dart';
 
@@ -47,6 +48,8 @@ class __FormState extends State<_Form> {
 
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context);
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 35),
       child: Column(
@@ -66,15 +69,25 @@ class __FormState extends State<_Form> {
           ),
           CustomButton(
             text: 'Ingresar',
-            onPressed: () {
-              print(emailCtrl.text);
-              print(passCtrl.text);
-              final authService = Provider.of<AuthService>(
-                context,
-                listen: false,
-              );
-              authService.login(emailCtrl.text, passCtrl.text);
-            },
+            onPressed: authService.autenticando
+                ? null
+                : () async {
+                    FocusScope.of(context).unfocus();
+                    final loginOk = await authService.login(
+                      emailCtrl.text.trim(),
+                      passCtrl.text.trim(),
+                    );
+                    if (loginOk) {
+                      // Todo: Conectar a nuestro socket server
+                      Navigator.pushReplacementNamed(context, 'usuarios');
+                    } else {
+                      mostrarAlerta(
+                        context,
+                        'Login incorrecto',
+                        'Revisa tus credenciales de acceso',
+                      );
+                    }
+                  },
           ),
         ],
       ),
