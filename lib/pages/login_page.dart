@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:chat_real_time_app/helpers/mostrar_alerta.dart';
+import 'package:chat_real_time_app/services/socket_service.dart';
 import 'package:chat_real_time_app/services/auth_service.dart';
 import '../widgets/widgets.dart';
 
@@ -49,6 +50,7 @@ class __FormState extends State<_Form> {
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context);
+    final socketService = Provider.of<SocketService>(context);
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 35),
@@ -78,7 +80,7 @@ class __FormState extends State<_Form> {
                       passCtrl.text.trim(),
                     );
                     if (loginOk) {
-                      // Todo: Conectar a nuestro socket server
+                      socketService.connect();
                       Navigator.pushReplacementNamed(context, 'usuarios');
                     } else {
                       await mostrarAlerta(

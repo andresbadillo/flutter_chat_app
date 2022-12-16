@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'package:chat_real_time_app/services/auth_service.dart';
 import 'package:chat_real_time_app/helpers/mostrar_alerta.dart';
+import '../services/socket_service.dart';
 import '../widgets/widgets.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -50,6 +51,7 @@ class __FormState extends State<_Form> {
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context);
+    final socketService = Provider.of<SocketService>(context);
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 35),
@@ -90,7 +92,7 @@ class __FormState extends State<_Form> {
                     );
 
                     if (registerOk == true) {
-                      // Todo: Conectar al socket server
+                      socketService.connect();
                       Navigator.pushReplacementNamed(context, 'usuarios');
                     } else {
                       mostrarAlerta(context, 'Registro incorrecto', registerOk);
