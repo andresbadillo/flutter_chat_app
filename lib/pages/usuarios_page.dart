@@ -4,9 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'package:chat_real_time_app/models/usuario.dart';
-import 'package:chat_real_time_app/services/usuarios_service.dart';
-import 'package:chat_real_time_app/services/socket_service.dart';
-import 'package:chat_real_time_app/services/auth_service.dart';
+import 'package:chat_real_time_app/services/services.dart';
 
 class UsuariosPage extends StatefulWidget {
   const UsuariosPage({Key? key}) : super(key: key);
@@ -61,7 +59,7 @@ class _UsuariosPageState extends State<UsuariosPage> {
         appBar: AppBar(
           title: Text(
             usuario?.nombre ?? 'Sin nombre',
-            style: TextStyle(
+            style: const TextStyle(
               color: Color(0xffF7FFF7),
             ),
           ),
@@ -94,9 +92,9 @@ class _UsuariosPageState extends State<UsuariosPage> {
           header: WaterDropHeader(
             complete: Icon(
               Icons.check,
-              color: Color(0xff1A535C).withOpacity(0.8),
+              color: const Color(0xff1A535C).withOpacity(0.8),
             ),
-            waterDropColor: Color(0xff1A535C),
+            waterDropColor: const Color(0xff1A535C),
           ),
           physics: const BouncingScrollPhysics(),
           onRefresh: _cargarUsuarios,
@@ -132,6 +130,12 @@ class _UsuariosPageState extends State<UsuariosPage> {
           borderRadius: BorderRadius.circular(100),
         ),
       ),
+      onTap: () {
+        final chatService = Provider.of<ChatService>(context, listen: false);
+        chatService.usuarioPara = usuario;
+        Navigator.pushNamed(context, 'chat');
+        // print(usuario.nombre);
+      },
     );
   }
 

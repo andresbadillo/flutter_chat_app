@@ -3,6 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
+import 'package:provider/provider.dart';
+
+import 'package:chat_real_time_app/services/services.dart';
 import 'package:chat_real_time_app/widgets/widgets.dart';
 
 class ChatPage extends StatefulWidget {
@@ -16,27 +19,30 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
   final _textController = TextEditingController();
   final _focusNode = FocusNode();
 
-  bool _isWriting = false;
-
   List<ChatMessage> _messages = [];
+
+  bool _isWriting = false;
 
   @override
   Widget build(BuildContext context) {
+    final chatService = Provider.of<ChatService>(context);
+    final usuarioPara = chatService.usuarioPara;
+
     return Scaffold(
       appBar: AppBar(
         title: Row(
           children: [
             CircleAvatar(
+              backgroundColor: const Color(0xfff7fff7),
               child: Text(
-                'An',
-                style: TextStyle(fontSize: 12, color: Color(0xff1a535c)),
+                usuarioPara!.nombre.substring(0, 2),
+                style: const TextStyle(fontSize: 12, color: Color(0xff1a535c)),
               ),
-              backgroundColor: Color(0xfff7fff7),
             ),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
             Text(
-              'Andres Badillo',
-              style: TextStyle(
+              usuarioPara.nombre,
+              style: const TextStyle(
                 color: Color(0xfff7fff7),
                 fontSize: 12,
               ),
@@ -59,7 +65,6 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
               ),
             ),
             const Divider(height: 1),
-            // Todo: caja de texto
             Container(
               height: 50,
               margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
