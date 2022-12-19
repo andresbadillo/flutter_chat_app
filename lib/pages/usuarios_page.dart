@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'package:chat_real_time_app/models/usuario.dart';
+import 'package:chat_real_time_app/services/usuarios_service.dart';
 import 'package:chat_real_time_app/services/socket_service.dart';
 import 'package:chat_real_time_app/services/auth_service.dart';
 
@@ -15,29 +16,39 @@ class UsuariosPage extends StatefulWidget {
 }
 
 class _UsuariosPageState extends State<UsuariosPage> {
+  final usuarioService = UsuariosService();
+
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
-  final usuarios = [
-    Usuario(
-      online: true,
-      email: 'andres@gmail.com',
-      nombre: 'Andres',
-      uid: '1',
-    ),
-    Usuario(
-      online: true,
-      email: 'sarah@gmail.com',
-      nombre: 'Sarah',
-      uid: '2',
-    ),
-    Usuario(
-      online: false,
-      email: 'cristian@gmail.com',
-      nombre: 'Cristian',
-      uid: '3',
-    )
-  ];
+  List<Usuario> usuarios = [];
+
+  @override
+  void initState() {
+    _cargarUsuarios();
+    super.initState();
+  }
+
+  // final usuarios = [
+  //   Usuario(
+  //     online: true,
+  //     email: 'andres@gmail.com',
+  //     nombre: 'Andres',
+  //     uid: '1',
+  //   ),
+  //   Usuario(
+  //     online: true,
+  //     email: 'sarah@gmail.com',
+  //     nombre: 'Sarah',
+  //     uid: '2',
+  //   ),
+  //   Usuario(
+  //     online: false,
+  //     email: 'cristian@gmail.com',
+  //     nombre: 'Cristian',
+  //     uid: '3',
+  //   )
+  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +136,10 @@ class _UsuariosPageState extends State<UsuariosPage> {
   }
 
   _cargarUsuarios() async {
-    await Future.delayed(Duration(milliseconds: 1000));
+    usuarios = await usuarioService.getUsuarios();
+    setState(() {});
+
+    // await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use refreshFailed()
     _refreshController.refreshCompleted();
   }

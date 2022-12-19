@@ -1,8 +1,10 @@
-import 'package:chat_real_time_app/global/environment.dart';
 import 'package:flutter/material.dart';
 
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:socket_io_client/socket_io_client.dart';
+
+import 'package:chat_real_time_app/services/auth_service.dart';
+import 'package:chat_real_time_app/global/environment.dart';
 
 enum ServerStatus {
   OnLine,
@@ -19,7 +21,9 @@ class SocketService with ChangeNotifier {
   Socket get socket => _socket;
   Function get emit => _socket.emit;
 
-  void connect() {
+  void connect() async {
+    final token = await AuthService.getToken();
+
     // Dart Client from: https://pub.dev/packages/socket_io_client
     _socket = IO.io(
       Environment.socketUrl,
@@ -27,6 +31,9 @@ class SocketService with ChangeNotifier {
           .setTransports(['websocket']) // for Flutter or Dart VM
           .enableAutoConnect() // disable auto-connection
           .enableForceNew()
+          .setExtraHeaders({
+            'x-token': token,
+          })
           .build(),
     );
     _socket.connect();
